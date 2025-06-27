@@ -1,4 +1,5 @@
   spring:
+    profiles: dev
     datasource:
       url: jdbc:postgresql://localhost:5432/files
       username: postgres
@@ -10,9 +11,11 @@
 
 app:
   aws:
+    region: us-east-1
     s3:
-      bucket: files-bucket
+      bucket: prueba-bucket
     sns:
       topicArn: arn:aws:sns:us-east-1:123456789012:FileNotification
+      endpoint: http://localhost:4566
 
 

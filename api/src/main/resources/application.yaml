@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/files
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  jackson:
+    serialization:
+      INDENT_OUTPUT: true
+
+app:
+  aws:
+    s3:
+      bucket: aws-prueba-s3-bucket
+      endpoint: http://localhost:4566
+    sns:
+      topicArn: arn:aws:sns:us-east-1:536697243781:fileNotification.fifo
+      endpoint: http://localhost:4566

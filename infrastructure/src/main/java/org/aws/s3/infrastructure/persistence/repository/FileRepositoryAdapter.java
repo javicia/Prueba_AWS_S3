@@ -7,18 +7,17 @@ import org.aws.s3.infrastructure.persistence.entity.FileEntity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.swing.*;
 import java.util.Optional;
 import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class JpaRepositoryAdapter implements FileRepositoryPort {
+public class FileRepositoryAdapter implements FileRepositoryPort {
 
     private final SpringDataFileRepository jpa;
 
     @Value("${app.aws.s3.bucket}")
-    private Spring bucket;
+    private String bucket;
 
 
     @Override

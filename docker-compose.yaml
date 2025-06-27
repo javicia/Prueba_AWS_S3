@@ -1,0 +1,59 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    container_name: prueba_aws_s3
+    environment:
+      POSTGRES_DB: files
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  localstack:
+    image: localstack/localstack:3
+    container_name: localstack_hexagonal
+    restart: unless-stopped
+    environment:
+      - SERVICES=s3,sns
+      - AWS_DEFAULT_REGION=us-east-1
+      - EDGE_PORT=4566
+    ports:
+      - "4566:4566"  # endpoint for AWS SDK
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - localstack_data:/var/lib/localstack
+
+  # Ejecutar la API Spring Boot desde Compose
+  api:
+    build: ./api                   # Asume Dockerfile en el módulo api/
+    container_name: prueba_aws_s3
+    depends_on:
+      - db
+      - localstack
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      # Variables para que el SDK AWS apunte a LocalStack
+      AWS_ACCESS_KEY_ID: dummy
+      AWS_SECRET_ACCESS_KEY: dummy
+      AWS_REGION: us-east-1
+      APP_AWS_S3_ENDPOINT: http://localstack:4566
+      APP_AWS_SNS_ENDPOINT: http://localstack:4566
+      AWS_S3_BUCKET: hexagonal-demo-bucket
+      AWS_SNS_TOPIC_ARN: arn:aws:sns:us-east-1:536697243781:fileNotification.fifo
+      # JDBC
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/files
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    ports:
+      - "8089:8089"
+    profiles:
+      - dev
+
+volumes:
+  db_data:
+  localstack_data:

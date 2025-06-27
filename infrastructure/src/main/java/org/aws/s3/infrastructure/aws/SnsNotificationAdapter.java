@@ -4,10 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.aws.s3.core.domain.port.out.NotificationPort;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import software.amazon.awssdk.services.sns.SnsClient;
 
 import java.util.UUID;
-
-import static jdk.internal.joptsimple.internal.Messages.message;
 
 @Component
 @RequiredArgsConstructor
@@ -20,7 +19,7 @@ public class SnsNotificationAdapter implements NotificationPort {
 
     @Override
     public void notifyFileUploaded(UUID fileId, String location) {
-    String msg = "New file uploaded: %s (%s)".formatted(fileId, location);
+    String msg = String.format("New file uploaded: %s (%s)", fileId, location);
         sns.publish(r -> r.topicArn(topicArn)
                 .message(msg));
     }

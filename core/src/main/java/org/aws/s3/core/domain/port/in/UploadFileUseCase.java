@@ -12,13 +12,14 @@ import java.io.InputStream;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 @Transactional
-public class UpploadFileUseCase {
+@RequiredArgsConstructor
+public class UploadFileUseCase {
 
     private final FileRepositoryPort repository;
     private final FileContentStoragePort storage;
     private final NotificationPort notifier;
+
 
     public UUID handle(File file, InputStream content) {
         String location = storage.store(file, content);
