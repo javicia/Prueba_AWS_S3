@@ -1,0 +1,18 @@
+  spring:
+    datasource:
+      url: jdbc:postgresql://localhost:5432/files
+      username: postgres
+      password: postgres
+
+    jpa:
+      hibernate:
+        ddl-auto: validate
+
+app:
+  aws:
+    s3:
+      bucket: files-bucket
+    sns:
+      topicArn: arn:aws:sns:us-east-1:123456789012:FileNotification
+
+
