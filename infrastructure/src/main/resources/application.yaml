@@ -17,5 +17,10 @@ app:
     sns:
       topicArn: arn:aws:sns:us-east-1:123456789012:FileNotification
       endpoint: http://localhost:4566
+    lambda:
+      functionName: fileUploadProcessor
+    cloudwatch:
+     namespace: PruebaAWS
+
 
 

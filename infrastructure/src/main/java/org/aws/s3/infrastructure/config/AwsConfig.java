@@ -6,6 +6,8 @@ import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsPro
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.sns.SnsClient;
+import software.amazon.awssdk.services.lambda.LambdaClient;
+import software.amazon.awssdk.services.cloudwatch.CloudWatchClient;
 
 @Configuration
 public class AwsConfig {
@@ -25,4 +27,22 @@ public class AwsConfig {
                 .credentialsProvider(EnvironmentVariableCredentialsProvider.create())
                 .build();
     }
+
+    @Bean
+    public LambdaClient lambdaClient() {
+        return LambdaClient.builder()
+                .region(Region.US_EAST_1)
+                .credentialsProvider(EnvironmentVariableCredentialsProvider.create())
+                .build();
+    }
+
+    @Bean
+    public CloudWatchClient cloudWatchClient() {
+        return CloudWatchClient.builder()
+                .region(Region.US_EAST_1)
+                .credentialsProvider(EnvironmentVariableCredentialsProvider.create())
+                .build();
+    }
 }
+
+
